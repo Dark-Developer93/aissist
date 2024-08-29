@@ -1,8 +1,10 @@
 import Image from "next/image";
 
+import { Button } from "@/components/ui/button";
+
 export default function Home() {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
+    <main>
       <h1 className="text-6xl font-bold">Welcome to AIssist</h1>
       <div className="flex flex-row gap-5 py-5">
         <Image
@@ -16,7 +18,7 @@ export default function Home() {
         <Image
           src="/AIssist logo.svg"
           alt="AIssist Logo"
-          className="dark:invert"
+          // className="dark:invert"
           width={500}
           height={500}
           priority
@@ -34,6 +36,7 @@ export default function Home() {
         todo app, designed to streamline your workflow and boost your
         productivity to new heights.
       </p>
+      <Button>Button</Button>
     </main>
   );
 }
