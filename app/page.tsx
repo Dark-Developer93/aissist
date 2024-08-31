@@ -1,6 +1,5 @@
+import Tasks from "@/components/tasks/Tasks";
 import Image from "next/image";
-
-import { Button } from "@/components/ui/button";
 
 export default function Home() {
   return (
@@ -36,7 +35,7 @@ export default function Home() {
         todo app, designed to streamline your workflow and boost your
         productivity to new heights.
       </p>
-      <Button>Button</Button>
+      <Tasks />
     </main>
   );
 }
