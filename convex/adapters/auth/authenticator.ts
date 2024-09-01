@@ -1,6 +1,6 @@
 import { adapterMutation, adapterQuery } from "./utils";
 import { v } from "convex/values";
-import { authenticatorSchema } from "../schema";
+import { authenticatorSchema } from "@/convex/schema";
 
 export const createAuthenticator = adapterMutation({
   args: { authenticator: v.object(authenticatorSchema) },

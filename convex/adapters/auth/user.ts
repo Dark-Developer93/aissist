@@ -1,7 +1,7 @@
 import { partial } from "convex-helpers/validators";
 import { adapterMutation, adapterQuery } from "./utils";
 import { v } from "convex/values";
-import { userSchema } from "../schema";
+import { userSchema } from "@/convex/schema";
 
 export const createUser = adapterMutation({
   args: { user: v.object(userSchema) },

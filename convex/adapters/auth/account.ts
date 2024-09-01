@@ -1,6 +1,7 @@
-import { adapterMutation, adapterQuery } from "./utils";
+import { adapterMutation, adapterQuery } from "@/convex/adapters/auth/utils";
+
 import { v } from "convex/values";
-import { accountSchema } from "../schema";
+import { accountSchema } from "@/convex/schema";
 
 export const getAccount = adapterQuery({
   args: { provider: v.string(), providerAccountId: v.string() },

@@ -1,6 +1,6 @@
 import { adapterMutation, adapterQuery } from "./utils";
 import { v } from "convex/values";
-import { sessionSchema } from "../schema";
+import { sessionSchema } from "@/convex/schema";
 
 export const createSession = adapterMutation({
   args: { session: v.object(sessionSchema) },

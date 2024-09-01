@@ -3,7 +3,7 @@ import {
   customQuery,
 } from "convex-helpers/server/customFunctions";
 import { v } from "convex/values";
-import { mutation, query } from "../_generated/server";
+import { mutation, query } from "@/convex/_generated/server";
 
 export const adapterQuery = customQuery(query, {
   args: { secret: v.string() },

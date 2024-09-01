@@ -1,6 +1,6 @@
 import { adapterMutation } from "./utils";
 import { v } from "convex/values";
-import { verificationTokenSchema } from "../schema";
+import { verificationTokenSchema } from "@/convex/schema";
 
 export const createVerificationToken = adapterMutation({
   args: { verificationToken: v.object(verificationTokenSchema) },
