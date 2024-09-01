@@ -15,7 +15,6 @@ import type {
 } from "convex/server";
 import type * as adapters_auth_account from "../adapters/auth/account.js";
 import type * as adapters_auth_authenticator from "../adapters/auth/authenticator.js";
-import type * as adapters_auth_index from "../adapters/auth/index.js";
 import type * as adapters_auth_session from "../adapters/auth/session.js";
 import type * as adapters_auth_user from "../adapters/auth/user.js";
 import type * as adapters_auth_utils from "../adapters/auth/utils.js";
@@ -41,7 +40,6 @@ import type * as queries_tasks from "../queries/tasks.js";
 declare const fullApi: ApiFromModules<{
   "adapters/auth/account": typeof adapters_auth_account;
   "adapters/auth/authenticator": typeof adapters_auth_authenticator;
-  "adapters/auth/index": typeof adapters_auth_index;
   "adapters/auth/session": typeof adapters_auth_session;
   "adapters/auth/user": typeof adapters_auth_user;
   "adapters/auth/utils": typeof adapters_auth_utils;
