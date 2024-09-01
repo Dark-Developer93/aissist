@@ -20,7 +20,7 @@ const Tasks = () => {
       </thead>
       <tbody>
         {tasks?.map((task) => (
-          <tr key={task.id}>
+          <tr key={task._id}>
             <td className="border border-gray-300 p-2 w-1/2">{task.text}</td>
             <td className="border border-gray-300 p-2 w-1/2">
               {task.isCompleted ? "Completed" : "Not Completed"}
