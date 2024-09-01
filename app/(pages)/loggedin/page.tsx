@@ -1,10 +1,30 @@
-import { Button } from "@/components/ui/button";
-import Link from "next/link";
+import Image from "next/image";
+
+import Tasks from "@/components/tasks/Tasks";
+import UserProfile from "@/app/components/UserProfile";
 
 export default function Home() {
   return (
     <main>
       <h1 className="text-6xl font-bold">Welcome to AIssist</h1>
+      <div className="flex flex-row gap-5 py-5">
+        <Image
+          src="/AIssist logo.png"
+          alt="AIssist Logo"
+          // className="dark:invert"
+          width={500}
+          height={500}
+          priority
+        />
+        <Image
+          src="/AIssist logo.svg"
+          alt="AIssist Logo"
+          // className="dark:invert"
+          width={500}
+          height={500}
+          priority
+        />
+      </div>
       <p className="text-2xl">
         Welcome to our advanced AI-powered todo application! This innovative app
         combines traditional task management with cutting-edge artificial
@@ -17,9 +37,8 @@ export default function Home() {
         todo app, designed to streamline your workflow and boost your
         productivity to new heights.
       </p>
-      <Link href="/login">
-        <Button variant="default">Login</Button>
-      </Link>
+      <UserProfile />
+      <Tasks />
     </main>
   );
 }
