@@ -71,8 +71,35 @@ const authTables = {
 };
 export default defineSchema({
   ...authTables,
-  tasks: defineTable({
+  projects: defineTable({
+    userId: v.id("users"),
+    name: v.string(),
+    type: v.union(v.literal("user"), v.literal("system")),
+  }),
+  labels: defineTable({
+    userId: v.id("users"),
+    name: v.string(),
+    type: v.union(v.literal("user"), v.literal("system")),
+  }),
+  todos: defineTable({
+    userId: v.id("users"),
+    projectId: v.id("projects"),
+    labelId: v.id("labels"),
+    taskName: v.string(),
+    description: v.optional(v.string()),
+    dueDate: v.number(),
+    priority: v.optional(v.float64()),
     isCompleted: v.boolean(),
-    text: v.string(),
+  }),
+  subTodos: defineTable({
+    userId: v.id("users"),
+    projectId: v.id("projects"),
+    labelId: v.id("labels"),
+    todoId: v.id("todos"),
+    taskName: v.string(),
+    description: v.optional(v.string()),
+    dueDate: v.number(),
+    priority: v.optional(v.float64()),
+    isCompleted: v.boolean(),
   }),
 });
