@@ -15,7 +15,7 @@ import {
 import { Button } from "../ui/button";
 import { signOutAction } from "@/app/actions/auth-action";
 
-export default async function UserProfile() {
+const UserProfile = async () => {
   const session = await auth();
   const imageUrl = session?.user?.image;
   const name = session?.user?.name;
@@ -26,7 +26,7 @@ export default async function UserProfile() {
       <DropdownMenuTrigger asChild className="hover:cursor-pointer">
         <Button
           variant={"secondary"}
-          className="flex items-center justify-start gap-1 lg:gap-2 m-0 p-0 lg:px-3 lg:w-full bg-white"
+          className="flex items-center justify-start gap-1 lg:gap-2 m-0 p-0 lg:px-3 lg:w-full bg-transparent hover:bg-transparent"
         >
           {imageUrl && (
             <Image
@@ -37,7 +37,9 @@ export default async function UserProfile() {
               className="rounded-full"
             />
           )}
-          <p className="truncate text-center text-gray-500">{email}</p>
+          <p className="truncate text-center text-gray-500 hover:text-primary">
+            {email}
+          </p>
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-56">
@@ -82,4 +84,6 @@ export default async function UserProfile() {
       </DropdownMenuContent>
     </DropdownMenu>
   );
-}
+};
+
+export default UserProfile;
