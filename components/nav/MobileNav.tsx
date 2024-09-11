@@ -20,7 +20,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import UserProfile from "../user-profile/UserProfile";
-import { primaryItems } from "@/utils/navigationItems";
+import { primaryItems } from "@/utils";
 
 const MobileNav = () => {
   return (
@@ -86,25 +86,6 @@ const MobileNav = () => {
           <span className="ml-2 text-2xl font-bold">AIssist</span>
         </span>
       </header>
-      <main className="flex flex-1 flex-col gap-4 p-4 lg:gap-6 lg:p-6">
-        <div className="flex items-center">
-          <h1 className="text-lg font-semibold md:text-2xl">Inventory</h1>
-        </div>
-        <div
-          className="flex flex-1 items-center justify-center rounded-lg border border-dashed shadow-sm"
-          x-chunk="dashboard-02-chunk-1"
-        >
-          <div className="flex flex-col items-center gap-1 text-center">
-            <h3 className="text-2xl font-bold tracking-tight">
-              You have no products
-            </h3>
-            <p className="text-sm text-muted-foreground">
-              You can start selling as soon as you add a product.
-            </p>
-            <Button className="mt-4">Add Product</Button>
-          </div>
-        </div>
-      </main>
     </div>
   );
 };
