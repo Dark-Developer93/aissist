@@ -9,7 +9,7 @@ export const get = query({
   },
 });
 
-export const completedTodos = query({
+export const completedSubTodos = query({
   args: {},
   handler: async (ctx) => {
     return (
@@ -21,7 +21,7 @@ export const completedTodos = query({
   },
 });
 
-export const inCompleteTodos = query({
+export const incompleteSubTodos = query({
   args: {},
   handler: async (ctx) => {
     return (
@@ -33,7 +33,7 @@ export const inCompleteTodos = query({
   },
 });
 
-export const totalTodos = query({
+export const totalSubTodos = query({
   args: {},
   handler: async (ctx) => {
     const todos = await ctx.db
@@ -45,7 +45,7 @@ export const totalTodos = query({
   },
 });
 
-export const checkATodo = mutation({
+export const checkASubTodo = mutation({
   args: { taskId: v.id("todos") },
   handler: async (ctx, { taskId }) => {
     const newTaskId = await ctx.db.patch(taskId, { isCompleted: true });
@@ -53,7 +53,7 @@ export const checkATodo = mutation({
   },
 });
 
-export const unCheckATodo = mutation({
+export const uncheckASubTodo = mutation({
   args: { taskId: v.id("todos") },
   handler: async (ctx, { taskId }) => {
     const newTaskId = await ctx.db.patch(taskId, { isCompleted: false });
