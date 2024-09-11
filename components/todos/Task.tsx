@@ -48,7 +48,7 @@ const Task = ({
               <div className="flex flex-col items-start">
                 <button
                   className={clsx(
-                    "text-sm font-normal text-left",
+                    "text-sm font-normal text-left hover:text-primary",
                     isCompleted && "line-through text-foreground/30"
                   )}
                 >

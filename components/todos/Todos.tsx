@@ -7,28 +7,29 @@ import { useToast } from "@/hooks/use-toast";
 import Task from "./Task";
 
 const Todos = ({ items }: { items: Array<Doc<"todos">> }) => {
-  //   const { toast } = useToast();
-  //   const checkATodo = useMutation(api.queries.todos.checkATodo);
-  //   const unCheckATodo = useMutation(api.queries.todos.unCheckATodo);
+  const { toast } = useToast();
+  const checkATodo = useMutation(api.queries.todos.checkATodo);
+  const unCheckATodo = useMutation(api.queries.todos.unCheckATodo);
 
-  //   const handleOnChangeTodo = (task: Doc<"todos">) => {
-  //     if (task.isCompleted) {
-  //       unCheckATodo({ taskId: task._id });
-  //     } else {
-  //       checkATodo({ taskId: task._id });
-  //       toast({
-  //         title: "✅ Task completed",
-  //         description: "You're a rockstar",
-  //         duration: 3000,
-  //       });
-  //     }
-  //   };
+  const handleOnChangeTodo = (task: Doc<"todos">) => {
+    if (task.isCompleted) {
+      unCheckATodo({ taskId: task._id });
+    } else {
+      checkATodo({ taskId: task._id });
+      toast({
+        title: "✅ Task completed",
+        description: "You're a rockstar",
+        duration: 3000,
+      });
+    }
+  };
+
   return items.map((task, idx) => (
     <Task
       key={idx}
       data={task}
       isCompleted={task.isCompleted}
-      //   handleOnChange={() => handleOnChangeTodo(task)}
+      handleOnChange={() => handleOnChangeTodo(task)}
     />
   ));
 };
