@@ -45,28 +45,28 @@ export default function Component() {
         <nav className="ml-auto flex gap-4 sm:gap-6">
           <Button
             variant="ghost"
-            className="hidden md:flex"
+            className="hidden hover:text-primary hover:bg-transparent md:flex"
             onClick={() => scrollToSection("features")}
           >
             Features
           </Button>
           <Button
             variant="ghost"
-            className="hidden md:flex"
+            className="hidden hover:text-primary hover:bg-transparent md:flex"
             onClick={() => scrollToSection("pricing")}
           >
             Pricing
           </Button>
           <Button
             variant="ghost"
-            className="hidden md:flex"
+            className="hidden hover:text-primary hover:bg-transparent md:flex"
             onClick={() => scrollToSection("about")}
           >
             About
           </Button>
           <Button
             variant="ghost"
-            className="hidden md:flex"
+            className="hidden hover:text-primary hover:bg-transparent md:flex"
             onClick={() => scrollToSection("contact")}
           >
             Contact
@@ -75,13 +75,18 @@ export default function Component() {
             className="hidden md:flex items-center justify-center"
             href="auth/signup"
           >
-            <Button variant="ghost"> Sign Up</Button>
+            <Button
+              variant="ghost"
+              className="hover:text-primary hover:bg-transparent"
+            >
+              Sign Up
+            </Button>
           </Link>
           <Link
             className="hidden md:flex items-center justify-center"
             href="auth/login"
           >
-            <Button> Sign In</Button>
+            <Button className="hover:bg-primary/70"> Sign In</Button>
           </Link>
           <Button
             variant="outline"
