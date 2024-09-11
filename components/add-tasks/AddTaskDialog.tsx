@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { Calendar, ChevronDown, Flag, Hash, Tag, Trash2 } from "lucide-react";
+import { format } from "date-fns";
 
 import { Doc } from "@/convex/_generated/dataModel";
 import {
@@ -16,31 +17,9 @@ import { useMutation, useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { useToast } from "@/hooks/use-toast";
 import Task from "../todos/Task";
-// import { AddTaskWrapper } from "./add-task-button";
+import AddTaskWrapper from "./AddTaskWrapper";
 // import SuggestMissingTasks from "./suggest-tasks";
 // import { deleteATodo } from "@/convex/todos";
-
-function formatDate(date: Date | number): string {
-  const d = new Date(date);
-  const months = [
-    "Jan",
-    "Feb",
-    "Mar",
-    "Apr",
-    "May",
-    "Jun",
-    "Jul",
-    "Aug",
-    "Sep",
-    "Oct",
-    "Nov",
-    "Dec",
-  ];
-  const month = months[d.getMonth()];
-  const day = d.getDate().toString().padStart(2, "0");
-  const year = d.getFullYear();
-  return `${month} ${day} ${year}`;
-}
 
 const AddTaskDialog = ({ data }: { data: Doc<"todos"> }) => {
   const { taskName, description, projectId, labelId, priority, dueDate, _id } =
@@ -76,7 +55,7 @@ const AddTaskDialog = ({ data }: { data: Doc<"todos"> }) => {
       },
       {
         labelName: "Due date",
-        value: formatDate(dueDate || new Date()),
+        value: format(dueDate || new Date(), "MMM dd yyyy"),
         icon: <Calendar className="w-4 h-4 text-primary capitalize" />,
       },
       {
@@ -141,7 +120,7 @@ const AddTaskDialog = ({ data }: { data: Doc<"todos"> }) => {
               );
             })} */}
             <div className="pb-4">
-              {/* <AddTaskWrapper parentTask={data} /> */}
+              <AddTaskWrapper parentTask={data} />
             </div>
             {/* {completedSubtodosByProject.map((task) => {
               return (
