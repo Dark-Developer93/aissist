@@ -3,6 +3,7 @@ import { v } from "convex/values";
 import { mutation, query, action } from "../_generated/server";
 import { api } from "../_generated/api";
 import { handleUserId } from "../auth";
+import { getEmbeddingsWithAI } from "./ai";
 
 export const get = query({
   args: {},
@@ -64,7 +65,16 @@ export const createASubTodo = mutation({
   },
   handler: async (
     ctx,
-    { taskName, description, priority, dueDate, projectId, labelId, parentId }
+    {
+      taskName,
+      description,
+      priority,
+      dueDate,
+      projectId,
+      labelId,
+      parentId,
+      embedding,
+    }
   ) => {
     try {
       const userId = await handleUserId(ctx);
@@ -79,6 +89,7 @@ export const createASubTodo = mutation({
           projectId,
           labelId,
           isCompleted: false,
+          embedding,
         });
         return newTaskId;
       }
@@ -105,6 +116,7 @@ export const createSubTodoAndEmbeddings = action({
     ctx,
     { taskName, description, priority, dueDate, projectId, labelId, parentId }
   ) => {
+    const embedding = await getEmbeddingsWithAI(taskName);
     await ctx.runMutation(api.queries.subTodos.createASubTodo, {
       taskName,
       description,
@@ -113,6 +125,7 @@ export const createSubTodoAndEmbeddings = action({
       projectId,
       labelId,
       parentId,
+      embedding,
     });
   },
 });
