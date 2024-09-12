@@ -37,7 +37,11 @@ import { Doc, Id } from "@/convex/_generated/dataModel";
 import { api } from "@/convex/_generated/api";
 import { cn } from "@/lib/utils";
 import { formatDate } from "@/utils/date";
-import { GET_STARTED_PROJECT_ID, GET_STARTED_LABEL_ID } from "@/utils";
+import {
+  GET_STARTED_PROJECT_ID,
+  GET_STARTED_LABEL_ID,
+  priorityMap,
+} from "@/utils";
 
 const FormSchema = z.object({
   taskName: z.string().min(2, {
@@ -49,13 +53,6 @@ const FormSchema = z.object({
   projectId: z.string().min(1, { message: "Please select a Project" }),
   labelId: z.string().min(1, { message: "Please select a Label" }),
 });
-
-const priorityMap = {
-  highest: 4,
-  high: 3,
-  medium: 2,
-  low: 1,
-};
 
 export default function AddTaskInline({
   setShowAddTask,
@@ -242,9 +239,9 @@ export default function AddTaskInline({
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
-                      {["highest", "high", "medium", "low"].map((item, idx) => (
-                        <SelectItem key={idx} value={item}>
-                          {item.charAt(0).toUpperCase() + item.slice(1)}
+                      {Object.entries(priorityMap).map(([key, value]) => (
+                        <SelectItem key={key} value={key}>
+                          {value}
                         </SelectItem>
                       ))}
                     </SelectContent>
@@ -284,7 +281,7 @@ export default function AddTaskInline({
             />
           </div>
           <CardFooter className="flex-col lg:flex-row lg:justify-between gap-2 border-t-2 p-0 pt-3">
-            <div className="w-full lg:w-1/4">
+            <div className="w-full lg:w-1/3">
               <FormField
                 control={form.control}
                 name="projectId"
