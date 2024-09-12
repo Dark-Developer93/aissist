@@ -1,4 +1,4 @@
-import { Calendar, GitBranch } from "lucide-react";
+import { Calendar, GitBranch, Loader2 } from "lucide-react";
 import clsx from "clsx";
 
 import { Checkbox } from "../ui/checkbox";
@@ -34,11 +34,13 @@ const Task = ({
   isCompleted,
   handleOnChange,
   showDetails = false,
+  isLoading = false,
 }: {
   data: Doc<"todos"> | Doc<"subTodos">;
   isCompleted: boolean;
   handleOnChange?: () => void;
   showDetails?: boolean;
+  isLoading?: boolean;
 }) => {
   const { taskName, dueDate, priority } = data;
 
@@ -50,16 +52,20 @@ const Task = ({
       <Dialog>
         <div className="flex gap-2 items-center justify-end w-full">
           <div className="flex gap-2 w-full">
-            <Checkbox
-              id="todo"
-              className={clsx(
-                "w-5 h-5 rounded-xl",
-                isCompleted &&
-                  "data-[state=checked]:bg-gray-300 border-gray-300"
-              )}
-              checked={isCompleted}
-              onCheckedChange={handleOnChange}
-            />
+            {isLoading ? (
+              <Loader2 className="w-5 h-5 animate-spin text-primary" />
+            ) : (
+              <Checkbox
+                id="todo"
+                className={clsx(
+                  "w-5 h-5 rounded-xl",
+                  isCompleted &&
+                    "data-[state=checked]:bg-gray-300 border-gray-300"
+                )}
+                checked={isCompleted}
+                onCheckedChange={handleOnChange}
+              />
+            )}
             <DialogTrigger asChild>
               <div className="flex flex-col items-start">
                 <button
