@@ -4,6 +4,7 @@ import { mutation, query, action } from "../_generated/server";
 import { api } from "../_generated/api";
 import { handleUserId } from "../auth";
 import { getStartOfDay, getEndOfDay } from "@/utils/date";
+import { getEmbeddingsWithAI } from "./ai";
 
 export const get = query({
   args: {},
@@ -187,10 +188,11 @@ export const createATodo = mutation({
     dueDate: v.number(),
     projectId: v.id("projects"),
     labelId: v.id("labels"),
+    embedding: v.optional(v.array(v.float64())),
   },
   handler: async (
     ctx,
-    { taskName, description, priority, dueDate, projectId, labelId }
+    { taskName, description, priority, dueDate, projectId, labelId, embedding }
   ) => {
     try {
       const userId = await handleUserId(ctx);
@@ -204,6 +206,7 @@ export const createATodo = mutation({
           projectId,
           labelId,
           isCompleted: false,
+          embedding,
         });
         return newTaskId;
       }
@@ -267,6 +270,7 @@ export const createTodoAndEmbeddings = action({
     ctx,
     { taskName, description, priority, dueDate, projectId, labelId }
   ) => {
+    const embedding = await getEmbeddingsWithAI(taskName);
     await ctx.runMutation(api.queries.todos.createATodo, {
       taskName,
       description,
@@ -274,6 +278,7 @@ export const createTodoAndEmbeddings = action({
       dueDate,
       projectId,
       labelId,
+      embedding,
     });
   },
 });
