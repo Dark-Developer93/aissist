@@ -88,7 +88,7 @@ export default defineSchema({
     taskName: v.string(),
     description: v.optional(v.string()),
     dueDate: v.number(),
-    priority: v.optional(v.float64()),
+    priority: v.float64(),
     isCompleted: v.boolean(),
   }),
   subTodos: defineTable({
@@ -99,7 +99,7 @@ export default defineSchema({
     taskName: v.string(),
     description: v.optional(v.string()),
     dueDate: v.number(),
-    priority: v.optional(v.float64()),
+    priority: v.float64(),
     isCompleted: v.boolean(),
   }),
 });
