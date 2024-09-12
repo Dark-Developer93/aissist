@@ -28,6 +28,7 @@ import type * as adapters_convex_utils from "../adapters/convex/utils.js";
 import type * as adapters_convex_verificationToken from "../adapters/convex/verificationToken.js";
 import type * as auth from "../auth.js";
 import type * as http from "../http.js";
+import type * as queries_ai from "../queries/ai.js";
 import type * as queries_labels from "../queries/labels.js";
 import type * as queries_projects from "../queries/projects.js";
 import type * as queries_subTodos from "../queries/subTodos.js";
@@ -57,6 +58,7 @@ declare const fullApi: ApiFromModules<{
   "adapters/convex/verificationToken": typeof adapters_convex_verificationToken;
   auth: typeof auth;
   http: typeof http;
+  "queries/ai": typeof queries_ai;
   "queries/labels": typeof queries_labels;
   "queries/projects": typeof queries_projects;
   "queries/subTodos": typeof queries_subTodos;
