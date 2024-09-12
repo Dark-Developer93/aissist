@@ -14,18 +14,18 @@ function isSubTodo(
   return "parentId" in data;
 }
 
-const getPriorityVariant = (priority: number) => {
+const getPriorityColor = (priority: number) => {
   switch (priority) {
     case 4:
-      return "destructive";
+      return "bg-destructive hover:bg-destructive/80";
     case 3:
-      return "secondary";
+      return "bg-destructive/80 hover:bg-destructive/60";
     case 2:
-      return "default";
+      return "bg-primary hover:bg-primary/80";
     case 1:
-      return "outline";
+      return "bg-muted-foreground hover:bg-muted-foreground/80";
     default:
-      return "outline";
+      return "bg-primary hover:bg-primary/80";
   }
 };
 
@@ -40,7 +40,7 @@ const Task = ({
   handleOnChange?: () => void;
   showDetails?: boolean;
 }) => {
-  const { taskName, dueDate } = data;
+  const { taskName, dueDate, priority } = data;
 
   return (
     <div
@@ -69,9 +69,6 @@ const Task = ({
                   )}
                 >
                   {taskName.charAt(0).toUpperCase() + taskName.slice(1)}
-                  <Badge variant={getPriorityVariant(data.priority ?? 2)}>
-                    {getPriorityLabel(data.priority)}
-                  </Badge>
                 </button>
                 {showDetails && (
                   <div className="flex gap-2">
@@ -92,6 +89,14 @@ const Task = ({
           </div>
           {!isSubTodo(data) && <AddTaskDialog data={data} />}
         </div>
+        <Badge
+          className={clsx(
+            "text-white hover:text-white",
+            getPriorityColor(priority!)
+          )}
+        >
+          {getPriorityLabel(priority)}
+        </Badge>
       </Dialog>
     </div>
   );
