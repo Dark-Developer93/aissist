@@ -2,7 +2,7 @@ import Sidebar from "@/components/nav/Sidebar";
 import MobileNav from "@/components/nav/MobileNav";
 import TodoList from "@/components/todos/TodoList";
 
-export default function Home() {
+const LoggedInPage = () => {
   return (
     <div className="grid min-h-screen w-full md:grid-cols-[220px_1fr] lg:grid-cols-[280px_1fr]">
       <Sidebar />
@@ -14,4 +14,6 @@ export default function Home() {
       </div>
     </div>
   );
-}
+};
+
+export default LoggedInPage;
