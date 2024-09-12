@@ -78,9 +78,9 @@ export const suggestMissingSubItemsWithAi = action({
     );
     const projectName = project?.name || "";
 
-    const model = genAI.getGenerativeModel({ model: "gemini-pro" });
+    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
-    const prompt = `I'm a project manager and I need help identifying missing sub tasks for a parent todo. I have a list of existing sub tasks in JSON format, containing objects with 'taskName' and 'description' properties. I also have a good understanding of the project scope. Can you help me identify 2 additional sub tasks that are not yet included in this list? Please provide these missing items in a separate JSON array with the key 'todos' containing objects with 'taskName' and 'description' properties. Ensure there are no duplicates between the existing list and the new suggestions.`;
+    const prompt = `I'm a project manager and I need help identifying missing sub tasks for a parent todo. I have a list of existing sub tasks in JSON format, containing objects with 'taskName' and 'description' properties. I also have a good understanding of the project scope. Can you help me identify 5 additional sub tasks that are not yet included in this list? Please provide these missing items in a separate JSON array with the key 'todos' containing objects with 'taskName' and 'description' and priorty (1 is low, and 4 is the highest it's of type number) for each sub task properties. Ensure there are no duplicates between the existing list and the new suggestions.`;
 
     const result = await model.generateContent([
       prompt,
@@ -110,12 +110,12 @@ export const suggestMissingSubItemsWithAi = action({
       const AI_LABEL_ID = "jx721pm26fd43f6h237f88v3j170eyb1";
 
       for (let i = 0; i < items.length; i++) {
-        const { taskName, description } = items[i];
+        const { taskName, description, priority } = items[i];
         const embedding = await getEmbeddingsWithAI(taskName);
         await ctx.runMutation(api.queries.subTodos.createASubTodo, {
           taskName,
           description,
-          priority: 1,
+          priority,
           dueDate: new Date().getTime(),
           projectId,
           parentId,
