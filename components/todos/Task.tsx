@@ -4,14 +4,30 @@ import clsx from "clsx";
 import { Checkbox } from "../ui/checkbox";
 import { Dialog, DialogTrigger } from "../ui/dialog";
 import { Doc } from "@/convex/_generated/dataModel";
-import { formatDate } from "@/utils";
+import { formatDate, getPriorityLabel } from "@/utils";
 import AddTaskDialog from "../add-tasks/AddTaskDialog";
+import { Badge } from "../ui/badge";
 
 function isSubTodo(
   data: Doc<"todos"> | Doc<"subTodos">
 ): data is Doc<"subTodos"> {
   return "parentId" in data;
 }
+
+const getPriorityVariant = (priority: number) => {
+  switch (priority) {
+    case 4:
+      return "destructive";
+    case 3:
+      return "secondary";
+    case 2:
+      return "default";
+    case 1:
+      return "outline";
+    default:
+      return "outline";
+  }
+};
 
 const Task = ({
   data,
@@ -48,11 +64,14 @@ const Task = ({
               <div className="flex flex-col items-start">
                 <button
                   className={clsx(
-                    "text-sm font-normal text-left hover:text-primary",
+                    "text-sm font-normal text-left hover:text-primary flex items-center gap-4",
                     isCompleted && "line-through text-foreground/30"
                   )}
                 >
-                  {taskName}
+                  {taskName.charAt(0).toUpperCase() + taskName.slice(1)}
+                  <Badge variant={getPriorityVariant(data.priority ?? 2)}>
+                    {getPriorityLabel(data.priority)}
+                  </Badge>
                 </button>
                 {showDetails && (
                   <div className="flex gap-2">
