@@ -63,6 +63,11 @@ const AddTaskDialog = ({ data }: { data: Doc<"todos"> }) => {
   const deleteATodoMutation = useMutation(api.queries.todos.deleteATodo);
   const updateTodoMutation = useMutation(api.queries.todos.updateTodo);
 
+  const deleteASubTodoMutation = useMutation(
+    api.queries.subTodos.deleteASubTodo
+  );
+  const updateSubTodoMutation = useMutation(api.queries.subTodos.updateSubTodo);
+
   const [isEditing, setIsEditing] = useState({
     taskName: false,
     description: false,
@@ -72,6 +77,7 @@ const AddTaskDialog = ({ data }: { data: Doc<"todos"> }) => {
     label: false,
   });
   const [editedData, setEditedData] = useState(data);
+  const [loadingTasks, setLoadingTasks] = useState<Record<string, boolean>>({});
   const toggleEdit = (field: keyof typeof isEditing) => {
     setIsEditing((prev) => ({ ...prev, [field]: !prev[field] }));
   };
@@ -99,6 +105,23 @@ const AddTaskDialog = ({ data }: { data: Doc<"todos"> }) => {
     };
   }, []);
 
+  const handleSubTaskChange = async (task: Doc<"subTodos">) => {
+    setLoadingTasks((prev) => ({ ...prev, [task._id]: true }));
+    try {
+      if (task.isCompleted) {
+        await unCheckASubTodoMutation({ taskId: task._id });
+      } else {
+        await checkASubTodoMutation({ taskId: task._id });
+        toast({
+          title: "✅ Task completed",
+          description: "You're a rockstar",
+          duration: 3000,
+        });
+      }
+    } finally {
+      setLoadingTasks((prev) => ({ ...prev, [task._id]: false }));
+    }
+  };
   const handleSave = () => {
     updateTodoMutation({
       taskId: _id,
@@ -124,6 +147,17 @@ const AddTaskDialog = ({ data }: { data: Doc<"todos"> }) => {
   };
   const handleDeleteTodo = () => {
     const deletedId = deleteATodoMutation({ taskId: _id });
+    if (deletedId !== undefined) {
+      toast({
+        title: "🗑️ Successfully deleted",
+        duration: 3000,
+      });
+    }
+  };
+
+  const handleSubTaskDelete = (subTaskId: Id<"subTodos">) => {
+    const deletedId = deleteASubTodoMutation({ taskId: subTaskId });
+    console.log("deletedId", deletedId);
     if (deletedId !== undefined) {
       toast({
         title: "🗑️ Successfully deleted",
@@ -172,7 +206,7 @@ const AddTaskDialog = ({ data }: { data: Doc<"todos"> }) => {
           )}
           <div className="flex items-center gap-1 mt-12 border-b-2 border-gray-100 pb-2 flex-wrap sm:justify-between lg:gap-0 ">
             <div className="flex gap-1">
-              <ChevronDown className="w-5 h-5 text-primary" />
+              {/* <ChevronDown className="w-5 h-5 text-primary" /> */}
               <p className="font-bold flex text-sm text-gray-900">Sub-tasks</p>
             </div>
             <div>
@@ -191,9 +225,9 @@ const AddTaskDialog = ({ data }: { data: Doc<"todos"> }) => {
                 key={task._id}
                 data={task}
                 isCompleted={task.isCompleted}
-                handleOnChange={() =>
-                  checkASubTodoMutation({ taskId: task._id })
-                }
+                handleOnChange={() => handleSubTaskChange(task)}
+                isLoading={loadingTasks[task._id]}
+                onConfirm={() => handleSubTaskDelete(task._id)}
               />
             ))}
             <div className="pb-4">
@@ -204,9 +238,9 @@ const AddTaskDialog = ({ data }: { data: Doc<"todos"> }) => {
                 key={task._id}
                 data={task}
                 isCompleted={task.isCompleted}
-                handleOnChange={() =>
-                  unCheckASubTodoMutation({ taskId: task._id })
-                }
+                handleOnChange={() => handleSubTaskChange(task)}
+                isLoading={loadingTasks[task._id]}
+                onConfirm={() => handleSubTaskDelete(task._id)}
               />
             ))}
           </div>
