@@ -153,7 +153,7 @@ const AddTaskDialog = ({ data }: { data: Doc<"todos"> }) => {
             </div>
           )}
         </DialogTitle>
-        <DialogDescription className="edit-area">
+        <DialogDescription className="edit-area overflow-y-auto">
           {isEditing.description ? (
             <Input
               value={editedData.description || ""}
@@ -185,7 +185,7 @@ const AddTaskDialog = ({ data }: { data: Doc<"todos"> }) => {
               />
             </div>
           </div>
-          <div className="pl-4">
+          <div className="pl-4 overflow-y-auto">
             {inCompletedSubtodosByProject.map((task) => (
               <Task
                 key={task._id}
