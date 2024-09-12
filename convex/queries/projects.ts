@@ -1,6 +1,6 @@
 import { v } from "convex/values";
 import { query } from "../_generated/server";
-import { handleUserId } from "../adapters/auth/auth";
+import { handleUserId } from "../auth";
 
 export const getProjects = query({
   args: {},
