@@ -96,8 +96,18 @@ export const suggestMissingSubItemsWithAi = action({
     console.log({ messageContent });
 
     if (messageContent) {
-      const items = JSON.parse(messageContent)?.todos ?? [];
-      const AI_LABEL_ID = "k57exc6xrw3ar5e1nmab4vnbjs6v1m4p";
+      const parseAIResponse = (content: string) => {
+        const jsonContent = content.replace(/```json\n|\n```/g, "").trim();
+        try {
+          return JSON.parse(jsonContent)?.todos ?? [];
+        } catch (error) {
+          console.error("Failed to parse AI response:", error);
+          return [];
+        }
+      };
+
+      const items = parseAIResponse(messageContent);
+      const AI_LABEL_ID = "jx721pm26fd43f6h237f88v3j170eyb1";
 
       for (let i = 0; i < items.length; i++) {
         const { taskName, description } = items[i];
