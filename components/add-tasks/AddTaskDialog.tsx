@@ -36,6 +36,7 @@ import Task from "@/components/todos/Task";
 import AddTaskWrapper from "./AddTaskWrapper";
 import { getPriorityLabel, priorityMap } from "@/utils";
 import SuggestMissingTasks from "./SuggestMissingTasks";
+import ConfirmationDialog from "../confirmation-dialog/ConfirmationDialog";
 
 const AddTaskDialog = ({ data }: { data: Doc<"todos"> }) => {
   const { projectId, labelId, _id, taskName, description } = data;
@@ -121,8 +122,7 @@ const AddTaskDialog = ({ data }: { data: Doc<"todos"> }) => {
       duration: 3000,
     });
   };
-  const handleDeleteTodo = (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleDeleteTodo = () => {
     const deletedId = deleteATodoMutation({ taskId: _id });
     if (deletedId !== undefined) {
       toast({
@@ -212,7 +212,7 @@ const AddTaskDialog = ({ data }: { data: Doc<"todos"> }) => {
           </div>
         </DialogDescription>
       </DialogHeader>
-      <div className="flex flex-col gap-2 bg-gray-100 lg:w-2/3">
+      <div className="flex flex-col gap-2 bg-gray-100 lg:w-2/3 overflow-y-auto">
         <div className="grid gap-2 p-4 border-b-2 w-full edit-area">
           <Label className="flex items-start">Project</Label>
           {isEditing.project ? (
@@ -334,17 +334,22 @@ const AddTaskDialog = ({ data }: { data: Doc<"todos"> }) => {
         </div>
         <div className="flex gap-2 p-4 w-full justify-end">
           <Button
-            variant="ghost"
+            variant="outline"
             onClick={handleSave}
             className="hover:text-primary"
           >
             Save Changes
           </Button>
-          <form onSubmit={handleDeleteTodo}>
-            <Button type="submit" variant="ghost" className="group">
-              <Trash2 className="w-4 h-4 group-hover:text-red-600 transition-colors" />
-            </Button>
-          </form>
+          <ConfirmationDialog
+            triggerButton={
+              <Button type="submit" variant="ghost" className="group">
+                <Trash2 className="w-4 h-4 group-hover:text-red-600 transition-colors" />
+              </Button>
+            }
+            title="Are you absolutely sure?"
+            description="This action cannot be undone. This will permanently delete your task and remove its data from our servers."
+            onConfirm={handleDeleteTodo}
+          />
         </div>
       </div>
     </DialogContent>
