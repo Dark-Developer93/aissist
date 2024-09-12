@@ -14,7 +14,6 @@ import type {
   FunctionReference,
 } from "convex/server";
 import type * as adapters_auth_account from "../adapters/auth/account.js";
-import type * as adapters_auth_auth from "../adapters/auth/auth.js";
 import type * as adapters_auth_authenticator from "../adapters/auth/authenticator.js";
 import type * as adapters_auth_session from "../adapters/auth/session.js";
 import type * as adapters_auth_user from "../adapters/auth/user.js";
@@ -27,6 +26,7 @@ import type * as adapters_convex_session from "../adapters/convex/session.js";
 import type * as adapters_convex_user from "../adapters/convex/user.js";
 import type * as adapters_convex_utils from "../adapters/convex/utils.js";
 import type * as adapters_convex_verificationToken from "../adapters/convex/verificationToken.js";
+import type * as auth from "../auth.js";
 import type * as http from "../http.js";
 import type * as queries_labels from "../queries/labels.js";
 import type * as queries_projects from "../queries/projects.js";
@@ -43,7 +43,6 @@ import type * as queries_todos from "../queries/todos.js";
  */
 declare const fullApi: ApiFromModules<{
   "adapters/auth/account": typeof adapters_auth_account;
-  "adapters/auth/auth": typeof adapters_auth_auth;
   "adapters/auth/authenticator": typeof adapters_auth_authenticator;
   "adapters/auth/session": typeof adapters_auth_session;
   "adapters/auth/user": typeof adapters_auth_user;
@@ -56,6 +55,7 @@ declare const fullApi: ApiFromModules<{
   "adapters/convex/user": typeof adapters_convex_user;
   "adapters/convex/utils": typeof adapters_convex_utils;
   "adapters/convex/verificationToken": typeof adapters_convex_verificationToken;
+  auth: typeof auth;
   http: typeof http;
   "queries/labels": typeof queries_labels;
   "queries/projects": typeof queries_projects;
