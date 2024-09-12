@@ -75,7 +75,7 @@ export default function AddTaskInline({
   const labels = useQuery(api.queries.labels.getLabels) ?? [];
 
   const labelId = parentTask?.labelId || (GET_STARTED_LABEL_ID as Id<"labels">);
-  const priority = parentTask?.priority?.toString() || "medium";
+  const priority = parentTask?.priority?.toString() || "2";
   const parentId = parentTask?._id;
   const projectId =
     myProjectId ||
@@ -115,7 +115,7 @@ export default function AddTaskInline({
           parentId,
           taskName,
           description,
-          priority: priorityMap[priority as keyof typeof priorityMap],
+          priority: parseInt(priority),
           dueDate: new Date(formatDate(dueDate)).valueOf(),
           projectId: projectId as Id<"projects">,
           labelId: labelId as Id<"labels">,
