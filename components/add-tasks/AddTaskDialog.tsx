@@ -38,7 +38,7 @@ import { getPriorityLabel, priorityMap } from "@/utils";
 // import SuggestMissingTasks from "./suggest-tasks";
 
 const AddTaskDialog = ({ data }: { data: Doc<"todos"> }) => {
-  const { projectId, labelId, priority, dueDate, _id } = data;
+  const { projectId, labelId, _id } = data;
 
   const { toast } = useToast();
   const project = useQuery(api.queries.projects.getProjectByProjectId, {
@@ -62,9 +62,6 @@ const AddTaskDialog = ({ data }: { data: Doc<"todos"> }) => {
   const deleteATodoMutation = useMutation(api.queries.todos.deleteATodo);
   const updateTodoMutation = useMutation(api.queries.todos.updateTodo);
 
-  const [todoDetails, setTodoDetails] = useState<
-    Array<{ labelName: string; value: string; icon: React.ReactNode }>
-  >([]);
   const [isEditing, setIsEditing] = useState({
     taskName: false,
     description: false,
@@ -77,35 +74,6 @@ const AddTaskDialog = ({ data }: { data: Doc<"todos"> }) => {
   const toggleEdit = (field: keyof typeof isEditing) => {
     setIsEditing((prev) => ({ ...prev, [field]: !prev[field] }));
   };
-
-  useEffect(() => {
-    const data = [
-      {
-        labelName: "Project",
-        value: project?.name || "",
-        icon: <Hash className="w-4 h-4 text-primary capitalize" />,
-      },
-      {
-        labelName: "Due date",
-        value: format(dueDate || new Date(), "MMM dd yyyy"),
-        icon: <CalendarIcon className="w-4 h-4 text-primary capitalize" />,
-      },
-      {
-        labelName: "Priority",
-        value: priority?.toString() || "",
-        icon: <Flag className="w-4 h-4 text-primary capitalize" />,
-      },
-      {
-        labelName: "Label",
-        value: label?.name || "",
-        icon: <Tag className="w-4 h-4 text-primary capitalize" />,
-      },
-    ];
-    if (data) {
-      setTodoDetails(data);
-    }
-  }, [dueDate, label?.name, priority, project]);
-
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       const target = event.target as HTMLElement;
@@ -163,8 +131,6 @@ const AddTaskDialog = ({ data }: { data: Doc<"todos"> }) => {
       });
     }
   };
-
-  console.log("editedData", editedData);
 
   return (
     <DialogContent className="max-w-4xl lg:h-4/6 flex flex-col md:flex-row lg:justify-between text-right">
