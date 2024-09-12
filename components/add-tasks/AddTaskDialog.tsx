@@ -108,7 +108,11 @@ const AddTaskDialog = ({ data }: { data: Doc<"todos"> }) => {
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (!(event.target as HTMLElement).closest(".edit-area")) {
+      const target = event.target as HTMLElement;
+      if (
+        !target.closest(".edit-area") &&
+        !target.closest('[role="listbox"]')
+      ) {
         setIsEditing({
           taskName: false,
           description: false,
@@ -131,7 +135,7 @@ const AddTaskDialog = ({ data }: { data: Doc<"todos"> }) => {
       taskId: _id,
       taskName: editedData.taskName,
       description: editedData.description,
-      priority: editedData.priority,
+      priority: editedData.priority || 2,
       dueDate: editedData.dueDate,
       projectId: editedData.projectId,
       labelId: editedData.labelId,
