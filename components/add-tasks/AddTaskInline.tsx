@@ -41,6 +41,7 @@ import {
   GET_STARTED_PROJECT_ID,
   GET_STARTED_LABEL_ID,
   priorityMap,
+  getPriorityLabel,
 } from "@/utils";
 
 const FormSchema = z.object({
@@ -53,6 +54,12 @@ const FormSchema = z.object({
   projectId: z.string().min(1, { message: "Please select a Project" }),
   labelId: z.string().min(1, { message: "Please select a Label" }),
 });
+
+const getPriorityString = (value: number) => {
+  return (
+    Object.entries(priorityMap).find(([, v]) => v === value)?.[0] || "medium"
+  );
+};
 
 export default function AddTaskInline({
   setShowAddTask,
@@ -230,7 +237,7 @@ export default function AddTaskInline({
                 <FormItem>
                   <Select
                     onValueChange={field.onChange}
-                    defaultValue={priority}
+                    defaultValue={getPriorityString(parseInt(priority))}
                   >
                     <FormControl>
                       <SelectTrigger className="gap-2">
@@ -241,7 +248,7 @@ export default function AddTaskInline({
                     <SelectContent>
                       {Object.entries(priorityMap).map(([key, value]) => (
                         <SelectItem key={key} value={key}>
-                          {value}
+                          {getPriorityLabel(value)}
                         </SelectItem>
                       ))}
                     </SelectContent>
