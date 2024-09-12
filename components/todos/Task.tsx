@@ -1,4 +1,4 @@
-import { Calendar, GitBranch, Loader2 } from "lucide-react";
+import { Calendar, GitBranch, Loader2, Trash2 } from "lucide-react";
 import clsx from "clsx";
 
 import { Checkbox } from "../ui/checkbox";
@@ -7,6 +7,8 @@ import { Doc } from "@/convex/_generated/dataModel";
 import { formatDate, getPriorityLabel } from "@/utils";
 import AddTaskDialog from "../add-tasks/AddTaskDialog";
 import { Badge } from "../ui/badge";
+import { Button } from "../ui/button";
+import ConfirmationDialog from "../confirmation-dialog/ConfirmationDialog";
 
 function isSubTodo(
   data: Doc<"todos"> | Doc<"subTodos">
@@ -35,12 +37,14 @@ const Task = ({
   handleOnChange,
   showDetails = false,
   isLoading = false,
+  onConfirm,
 }: {
   data: Doc<"todos"> | Doc<"subTodos">;
   isCompleted: boolean;
   handleOnChange?: () => void;
   showDetails?: boolean;
   isLoading?: boolean;
+  onConfirm?: () => void;
 }) => {
   const { taskName, dueDate, priority } = data;
 
@@ -103,6 +107,18 @@ const Task = ({
         >
           {getPriorityLabel(priority)}
         </Badge>
+        {isSubTodo(data) && (
+          <ConfirmationDialog
+            triggerButton={
+              <Button type="submit" variant="ghost" className="group">
+                <Trash2 className="w-4 h-4 group-hover:text-red-600 transition-colors" />
+              </Button>
+            }
+            title="Are you absolutely sure?"
+            description="This action cannot be undone. This will permanently delete your task and remove its data from our servers."
+            onConfirm={() => onConfirm?.()}
+          />
+        )}
       </Dialog>
     </div>
   );
