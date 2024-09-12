@@ -92,7 +92,7 @@ const Task = ({
         <Badge
           className={clsx(
             "text-white hover:text-white",
-            getPriorityColor(priority!)
+            getPriorityColor(priority)
           )}
         >
           {getPriorityLabel(priority)}
