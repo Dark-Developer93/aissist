@@ -95,7 +95,7 @@ export default defineSchema({
     userId: v.id("users"),
     projectId: v.id("projects"),
     labelId: v.id("labels"),
-    todoId: v.id("todos"),
+    parentId: v.id("todos"),
     taskName: v.string(),
     description: v.optional(v.string()),
     dueDate: v.number(),
