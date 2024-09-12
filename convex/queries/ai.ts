@@ -97,16 +97,13 @@ export const suggestMissingSubItemsWithAi = action({
 
     if (messageContent) {
       const parseAIResponse = (content: string) => {
-        const jsonMatch = content.match(/```json\n([\s\S]*?)\n```/);
-        if (jsonMatch && jsonMatch[1]) {
-          try {
-            return JSON.parse(jsonMatch[1])?.todos ?? [];
-          } catch (error) {
-            console.error("Failed to parse AI response:", error);
-            return [];
-          }
+        const jsonContent = content.replace(/```json\n|\n```/g, "").trim();
+        try {
+          return JSON.parse(jsonContent)?.todos ?? [];
+        } catch (error) {
+          console.error("Failed to parse AI response:", error);
+          return [];
         }
-        return [];
       };
 
       const items = parseAIResponse(messageContent);
