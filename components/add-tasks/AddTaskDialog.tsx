@@ -35,10 +35,10 @@ import { useToast } from "@/hooks/use-toast";
 import Task from "@/components/todos/Task";
 import AddTaskWrapper from "./AddTaskWrapper";
 import { getPriorityLabel, priorityMap } from "@/utils";
-// import SuggestMissingTasks from "./suggest-tasks";
+import SuggestMissingTasks from "./SuggestMissingTasks";
 
 const AddTaskDialog = ({ data }: { data: Doc<"todos"> }) => {
-  const { projectId, labelId, _id } = data;
+  const { projectId, labelId, _id, taskName, description } = data;
 
   const { toast } = useToast();
   const project = useQuery(api.queries.projects.getProjectByProjectId, {
@@ -176,13 +176,13 @@ const AddTaskDialog = ({ data }: { data: Doc<"todos"> }) => {
               <p className="font-bold flex text-sm text-gray-900">Sub-tasks</p>
             </div>
             <div>
-              {/* <SuggestMissingTasks
+              <SuggestMissingTasks
                 projectId={projectId}
                 taskName={taskName}
                 description={description}
                 parentId={_id}
                 isSubTask={true}
-              /> */}
+              />
             </div>
           </div>
           <div className="pl-4">
