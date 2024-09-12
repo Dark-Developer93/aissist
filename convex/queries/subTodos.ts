@@ -102,6 +102,54 @@ export const createASubTodo = mutation({
   },
 });
 
+export const updateSubTodo = mutation({
+  args: {
+    taskId: v.id("subTodos"),
+    parentId: v.id("todos"),
+    taskName: v.string(),
+    description: v.optional(v.string()),
+    priority: v.number(),
+    dueDate: v.number(),
+    projectId: v.id("projects"),
+    labelId: v.id("labels"),
+  },
+  handler: async (
+    ctx,
+    {
+      taskId,
+      taskName,
+      description,
+      priority,
+      dueDate,
+      projectId,
+      labelId,
+      parentId,
+    }
+  ) => {
+    try {
+      const userId = await handleUserId(ctx);
+      if (userId) {
+        const newSubTaskId = await ctx.db.patch(taskId, {
+          taskName,
+          description,
+          priority,
+          dueDate,
+          projectId,
+          parentId,
+          labelId,
+        });
+        return newSubTaskId;
+      }
+
+      return null;
+    } catch (err) {
+      console.log("Error occurred during updateSubTodo mutation", err);
+
+      return null;
+    }
+  },
+});
+
 export const createSubTodoAndEmbeddings = action({
   args: {
     taskName: v.string(),
@@ -177,10 +225,10 @@ export const deleteASubTodo = mutation({
     try {
       const userId = await handleUserId(ctx);
       if (userId) {
-        const deletedTaskId = await ctx.db.delete(taskId);
-        //query todos and map through them and delete
+        const deletedSubTaskId = await ctx.db.delete(taskId);
+        //query sub todos and map through them and delete
 
-        return deletedTaskId;
+        return deletedSubTaskId;
       }
 
       return null;
