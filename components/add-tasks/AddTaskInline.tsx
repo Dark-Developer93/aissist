@@ -132,7 +132,7 @@ export default function AddTaskInline({
         const mutationId = createTodoEmbeddings({
           taskName,
           description,
-          priority: priorityMap[priority as keyof typeof priorityMap],
+          priority: parseInt(priority),
           dueDate: new Date(formatDate(dueDate)).valueOf(),
           projectId: projectId as Id<"projects">,
           labelId: labelId as Id<"labels">,
