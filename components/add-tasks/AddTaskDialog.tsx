@@ -66,7 +66,7 @@ const AddTaskDialog = ({ data }: { data: Doc<"todos"> }) => {
   const deleteASubTodoMutation = useMutation(
     api.queries.subTodos.deleteASubTodo
   );
-  const updateSubTodoMutation = useMutation(api.queries.subTodos.updateSubTodo);
+  // const updateSubTodoMutation = useMutation(api.queries.subTodos.updateSubTodo);
 
   const [isEditing, setIsEditing] = useState({
     taskName: false,
