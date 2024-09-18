@@ -31,6 +31,7 @@ import type * as http from "../http.js";
 import type * as queries_ai from "../queries/ai.js";
 import type * as queries_labels from "../queries/labels.js";
 import type * as queries_projects from "../queries/projects.js";
+import type * as queries_search from "../queries/search.js";
 import type * as queries_subTodos from "../queries/subTodos.js";
 import type * as queries_todos from "../queries/todos.js";
 
@@ -61,6 +62,7 @@ declare const fullApi: ApiFromModules<{
   "queries/ai": typeof queries_ai;
   "queries/labels": typeof queries_labels;
   "queries/projects": typeof queries_projects;
+  "queries/search": typeof queries_search;
   "queries/subTodos": typeof queries_subTodos;
   "queries/todos": typeof queries_todos;
 }>;
