@@ -4,6 +4,7 @@ import Link from "next/link";
 import { auth } from "@/auth";
 import { LifeBuoy, LogOut, Settings } from "lucide-react";
 
+import { signOutAction } from "@/app/actions/auth-action";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -13,7 +14,6 @@ import {
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
 import { Button } from "../ui/button";
-import { signOutAction } from "@/app/actions/auth-action";
 
 const UserProfile = async () => {
   const session = await auth();
@@ -25,7 +25,7 @@ const UserProfile = async () => {
     <DropdownMenu>
       <DropdownMenuTrigger asChild className="hover:cursor-pointer">
         <Button
-          variant={"secondary"}
+          variant="secondary"
           className="flex items-center justify-start gap-1 lg:gap-2 m-0 p-0 lg:px-3 lg:w-full bg-transparent hover:bg-transparent"
         >
           {imageUrl && (
@@ -74,7 +74,7 @@ const UserProfile = async () => {
             <LogOut className="h-4 w-4 text-foreground group-hover:text-primary transition-colors" />
             <Button
               type="submit"
-              variant={"ghost"}
+              variant="ghost"
               className="hover:text-primary hover:bg-transparent"
             >
               Logout

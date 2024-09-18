@@ -26,13 +26,6 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "../ui/select";
 import { Doc, Id } from "@/convex/_generated/dataModel";
 import { api } from "@/convex/_generated/api";
 import { cn } from "@/lib/utils";
@@ -43,6 +36,13 @@ import {
   priorityMap,
   getPriorityLabel,
 } from "@/utils";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "../ui/select";
 
 const FormSchema = z.object({
   taskName: z.string().min(2, {
@@ -83,11 +83,11 @@ export default function AddTaskInline({
     (GET_STARTED_PROJECT_ID as Id<"projects">);
 
   const createASubTodoEmbeddings = useAction(
-    api.queries.subTodos.createSubTodoAndEmbeddings
+    api.queries.subTodos.createSubTodoAndEmbeddings,
   );
 
   const createTodoEmbeddings = useAction(
-    api.queries.todos.createTodoAndEmbeddings
+    api.queries.todos.createTodoAndEmbeddings,
   );
 
   const defaultValues = {
@@ -110,7 +110,7 @@ export default function AddTaskInline({
 
     if (projectId) {
       if (parentId) {
-        //subtodo
+        // subtodo
         const mutationId = createASubTodoEmbeddings({
           parentId,
           taskName,
@@ -202,10 +202,10 @@ export default function AddTaskInline({
                     <PopoverTrigger asChild>
                       <FormControl>
                         <Button
-                          variant={"outline"}
+                          variant="outline"
                           className={cn(
                             "flex gap-2 pl-3 font-normal",
-                            !field.value && "text-muted-foreground"
+                            !field.value && "text-muted-foreground",
                           )}
                         >
                           <CalendarIcon className="h-4 w-4 text-primary" />
@@ -310,7 +310,7 @@ export default function AddTaskInline({
                             <SelectItem key={idx} value={project._id}>
                               {project?.name}
                             </SelectItem>
-                          )
+                          ),
                         )}
                       </SelectContent>
                     </Select>
@@ -323,7 +323,7 @@ export default function AddTaskInline({
             <div className="flex gap-3 self-end">
               <Button
                 className="bg-gray-300/40 text-gray-950 px-6 hover:bg-gray-300"
-                variant={"outline"}
+                variant="outline"
                 onClick={() => setShowAddTask(false)}
               >
                 Cancel

@@ -2,17 +2,17 @@ import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { useMutation } from "convex/react";
 
+import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { api } from "@/convex/_generated/api";
+import { useToast } from "@/hooks/use-toast";
 import {
   DialogContent,
   DialogDescription,
   DialogHeader,
   DialogTitle,
 } from "../ui/dialog";
-import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { api } from "@/convex/_generated/api";
-import { useToast } from "@/hooks/use-toast";
 
 const AddProjectDialogContent = () => {
   const form = useForm({ defaultValues: { name: "" } });
@@ -62,7 +62,7 @@ const AddProjectDialogContent = () => {
                     </FormControl>
                   </FormItem>
                 )}
-              ></FormField>
+              />
               <Button className="">Add</Button>
             </form>
           </Form>

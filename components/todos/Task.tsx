@@ -1,10 +1,10 @@
 import { Calendar, GitBranch, Loader2, Trash2 } from "lucide-react";
 import clsx from "clsx";
 
-import { Checkbox } from "../ui/checkbox";
-import { Dialog, DialogTrigger } from "../ui/dialog";
 import { Doc } from "@/convex/_generated/dataModel";
 import { formatDate, getPriorityLabel } from "@/utils";
+import { Checkbox } from "../ui/checkbox";
+import { Dialog, DialogTrigger } from "../ui/dialog";
 import AddTaskDialog from "../add-tasks/AddTaskDialog";
 import { Badge } from "../ui/badge";
 import { Button } from "../ui/button";
@@ -20,7 +20,7 @@ interface TodoProps {
   onConfirm?: () => void;
 }
 function isSubTodo(
-  data: Doc<"todos"> | Doc<"subTodos">
+  data: Doc<"todos"> | Doc<"subTodos">,
 ): data is Doc<"subTodos"> {
   return "parentId" in data;
 }
@@ -67,7 +67,7 @@ const Task = ({
                 className={clsx(
                   "w-5 h-5 rounded-xl",
                   isCompleted &&
-                    "data-[state=checked]:bg-gray-300 border-gray-300"
+                    "data-[state=checked]:bg-gray-300 border-gray-300",
                 )}
                 checked={isCompleted}
                 onCheckedChange={handleOnChange}
@@ -78,7 +78,7 @@ const Task = ({
                 <button
                   className={clsx(
                     "text-sm font-normal text-left hover:text-primary flex items-center gap-4",
-                    isCompleted && "line-through text-foreground/30"
+                    isCompleted && "line-through text-foreground/30",
                   )}
                 >
                   {taskName.charAt(0).toUpperCase() + taskName.slice(1)}
@@ -87,7 +87,7 @@ const Task = ({
                   <div className="flex gap-2">
                     <div className="flex items-center justify-center gap-1">
                       <GitBranch className="w-3 h-3 text-foreground/70" />
-                      <p className="text-xs text-foreground/70"></p>
+                      <p className="text-xs text-foreground/70" />
                     </div>
                     <div className="flex items-center justify-center gap-1">
                       <Calendar className="w-3 h-3 text-primary" />
@@ -104,7 +104,7 @@ const Task = ({
           <Badge
             className={clsx(
               "text-white hover:text-white",
-              getPriorityColor(priority)
+              getPriorityColor(priority),
             )}
           >
             {getPriorityLabel(priority)}

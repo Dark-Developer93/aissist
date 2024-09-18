@@ -8,8 +8,8 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import UserProfile from "../user-profile/UserProfile";
 import { primaryItems } from "@/utils";
+import UserProfile from "../user-profile/UserProfile";
 
 const Sidebar = () => {
   return (

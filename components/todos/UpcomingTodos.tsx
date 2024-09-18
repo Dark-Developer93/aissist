@@ -5,9 +5,9 @@ import { useQuery } from "convex/react";
 
 import { api } from "@/convex/_generated/api";
 import AddTaskWrapper from "@/components/add-tasks/AddTaskWrapper";
-import Todos from "./Todos";
 import Loading from "@/components/loading/Loading";
 import { formatDate } from "@/utils";
+import Todos from "./Todos";
 
 const UpcomingTodos = () => {
   const groupTodosByDate = useQuery(api.queries.todos.groupTodosByDate);
@@ -23,7 +23,7 @@ const UpcomingTodos = () => {
       </div>
       <div className="flex flex-col gap-1 py-4">
         <p className="font-bold flex text-sm">Overdue</p>
-        <Todos items={overdueTodos} isoverdue={true} />
+        <Todos items={overdueTodos} isoverdue />
       </div>
       <div className="pb-6">
         <AddTaskWrapper />

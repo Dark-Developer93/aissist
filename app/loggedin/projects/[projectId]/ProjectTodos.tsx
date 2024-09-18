@@ -19,14 +19,14 @@ export default function ProjectTodos({
     api.queries.todos.getInCompleteTodosByProjectId,
     {
       projectId,
-    }
+    },
   );
 
   const completedTodosByProject = useQuery(
     api.queries.todos.getCompletedTodosByProjectId,
     {
       projectId,
-    }
+    },
   );
 
   const project = useQuery(api.queries.projects.getProjectByProjectId, {

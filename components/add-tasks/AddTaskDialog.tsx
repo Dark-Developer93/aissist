@@ -3,7 +3,6 @@
 import { useEffect, useState } from "react";
 import {
   Calendar as CalendarIcon,
-  ChevronDown,
   Flag,
   Hash,
   Tag,
@@ -33,8 +32,8 @@ import { useMutation, useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { useToast } from "@/hooks/use-toast";
 import Task from "@/components/todos/Task";
-import AddTaskWrapper from "./AddTaskWrapper";
 import { getPriorityLabel, priorityMap } from "@/utils";
+import AddTaskWrapper from "./AddTaskWrapper";
 import SuggestMissingTasks from "./SuggestMissingTasks";
 import ConfirmationDialog from "../confirmation-dialog/ConfirmationDialog";
 
@@ -57,14 +56,14 @@ const AddTaskDialog = ({ data }: { data: Doc<"todos"> }) => {
 
   const checkASubTodoMutation = useMutation(api.queries.subTodos.checkASubTodo);
   const unCheckASubTodoMutation = useMutation(
-    api.queries.subTodos.unCheckASubTodo
+    api.queries.subTodos.unCheckASubTodo,
   );
 
   const deleteATodoMutation = useMutation(api.queries.todos.deleteATodo);
   const updateTodoMutation = useMutation(api.queries.todos.updateTodo);
 
   const deleteASubTodoMutation = useMutation(
-    api.queries.subTodos.deleteASubTodo
+    api.queries.subTodos.deleteASubTodo,
   );
   // const updateSubTodoMutation = useMutation(api.queries.subTodos.updateSubTodo);
 
@@ -217,7 +216,7 @@ const AddTaskDialog = ({ data }: { data: Doc<"todos"> }) => {
                 taskName={taskName}
                 description={description}
                 parentId={_id}
-                isSubTask={true}
+                isSubTask
               />
             </div>
           </div>
