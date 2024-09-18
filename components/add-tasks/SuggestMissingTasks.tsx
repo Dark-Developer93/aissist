@@ -5,6 +5,7 @@ import { useAction } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { Id } from "@/convex/_generated/dataModel";
 import { Button } from "../ui/button";
+import { useToast } from "@/hooks/use-toast";
 
 export default function SuggestMissingTasks({
   projectId,
@@ -21,6 +22,7 @@ export default function SuggestMissingTasks({
 }) {
   const [isLoadingSuggestMissingTasks, setIsLoadingSuggestMissingTasks] =
     useState(false);
+  const { toast } = useToast();
 
   const suggestMissingTasks =
     useAction(api.queries.ai.suggestMissingItemsWithAi) || [];
@@ -28,12 +30,36 @@ export default function SuggestMissingTasks({
   const suggestMissingSubTasks =
     useAction(api.queries.ai.suggestMissingSubItemsWithAi) || [];
 
+  const retryWithDelay = async (
+    fn: () => Promise<any>,
+    retries = 3,
+    delay = 1000
+  ) => {
+    try {
+      return await fn();
+    } catch (error) {
+      if (retries > 0) {
+        await new Promise((resolve) => setTimeout(resolve, delay));
+        return retryWithDelay(fn, retries - 1, delay * 2);
+      }
+      throw error;
+    }
+  };
+
   const handleMissingTasks = async () => {
     setIsLoadingSuggestMissingTasks(true);
     try {
-      await suggestMissingTasks({ projectId });
+      await retryWithDelay(() => suggestMissingTasks({ projectId }));
+      toast({
+        title: "Successfully suggested missing tasks",
+        duration: 3000,
+      });
     } catch (error) {
-      console.log("Error in suggestMissingTasks", error);
+      console.error("Error in suggestMissingTasks", error);
+      toast({
+        title: "Failed to suggest missing tasks. Please try again later.",
+        duration: 3000,
+      });
     } finally {
       setIsLoadingSuggestMissingTasks(false);
     }
@@ -43,15 +69,25 @@ export default function SuggestMissingTasks({
     setIsLoadingSuggestMissingTasks(true);
     try {
       if (parentId) {
-        await suggestMissingSubTasks({
-          projectId,
-          taskName,
-          description,
-          parentId,
+        await retryWithDelay(() =>
+          suggestMissingSubTasks({
+            projectId,
+            taskName,
+            description,
+            parentId,
+          })
+        );
+        toast({
+          title: "Successfully suggested missing subtasks",
+          duration: 3000,
         });
       }
     } catch (error) {
-      console.log("Error in suggestMissingSubTasks", error);
+      console.error("Error in suggestMissingSubTasks", error);
+      toast({
+        title: "Failed to suggest missing subtasks. Please try again later.",
+        duration: 3000,
+      });
     } finally {
       setIsLoadingSuggestMissingTasks(false);
     }

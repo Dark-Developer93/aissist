@@ -122,6 +122,7 @@ const AddTaskDialog = ({ data }: { data: Doc<"todos"> }) => {
       setLoadingTasks((prev) => ({ ...prev, [task._id]: false }));
     }
   };
+
   const handleSave = () => {
     updateTodoMutation({
       taskId: _id,
@@ -145,6 +146,7 @@ const AddTaskDialog = ({ data }: { data: Doc<"todos"> }) => {
       duration: 3000,
     });
   };
+
   const handleDeleteTodo = () => {
     const deletedId = deleteATodoMutation({ taskId: _id });
     if (deletedId !== undefined) {
@@ -167,8 +169,8 @@ const AddTaskDialog = ({ data }: { data: Doc<"todos"> }) => {
   };
 
   return (
-    <DialogContent className="max-w-4xl lg:h-4/6 flex flex-col md:flex-row lg:justify-between text-right">
-      <DialogHeader className="w-full">
+    <DialogContent className="max-w-4xl h-lvh lg:h-4/6 flex flex-col md:flex-row lg:justify-between text-right overflow-y-auto">
+      <DialogHeader className="flex flex-col gap-2 w-full md:w-2/3 flex-grow overflow-y-auto">
         <DialogTitle className="edit-area">
           {isEditing.taskName ? (
             <Input
