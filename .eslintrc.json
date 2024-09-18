@@ -59,6 +59,5 @@
       }
     }
   },
-  "ignorePatterns": ["build"],
-  "reportUnusedDisableDirectives": true
+  "ignorePatterns": ["build"]
 }
