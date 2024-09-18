@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { CheckCircle2, CircleUser, Menu, Search } from "lucide-react";
+import { CheckCircle2, Menu } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -9,20 +9,18 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { Input } from "@/components/ui/input";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import UserProfile from "../user-profile/UserProfile";
+import UserProfile from "@/components/user-profile/UserProfile";
+import SearchForm from "@/components/nav/SearchForm";
 import { primaryItems } from "@/utils";
 
-const MobileNav = () => {
+const MobileNav = ({
+  navTitle = "",
+  navLink = "#",
+}: {
+  navTitle?: string;
+  navLink?: string;
+}) => {
   return (
     <div className="flex flex-col">
       <header className="flex h-14 items-center gap-4 border-b bg-muted/40 px-4 lg:h-[60px] lg:px-6">
@@ -46,7 +44,7 @@ const MobileNav = () => {
                   className="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 hover:text-foreground"
                   key={item._id}
                 >
-                  <item.icon className="h-5 w-5" />
+                  <item.navicon className="h-5 w-5" />
                   {item.label}
                 </Link>
               ))}
@@ -69,22 +67,22 @@ const MobileNav = () => {
             </div>
           </SheetContent>
         </Sheet>
-        <div className="w-full flex-1">
-          <form>
-            <div className="relative">
-              <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
-              <Input
-                type="search"
-                placeholder="Search products..."
-                className="w-full appearance-none bg-background pl-8 shadow-none md:w-2/3 lg:w-1/3"
-              />
-            </div>
-          </form>
+        <div className="flex items-center md:justify-between w-full gap-1 md:gap-2 py-2">
+          <div className="lg:flex-1">
+            <Link href={navLink}>
+              <p className="text-sm font-semibold text-foreground/70 w-24">
+                {navTitle}
+              </p>
+            </Link>
+          </div>
+          <div className="w-full flex-1">
+            <SearchForm />
+          </div>
+          <span className="flex items-center justify-center">
+            <CheckCircle2 className="h-6 w-6 text-primary" />
+            <span className="ml-2 text-2xl font-bold">AIssist</span>
+          </span>
         </div>
-        <span className="flex items-center justify-center">
-          <CheckCircle2 className="h-6 w-6 text-primary" />
-          <span className="ml-2 text-2xl font-bold">AIssist</span>
-        </span>
       </header>
     </div>
   );

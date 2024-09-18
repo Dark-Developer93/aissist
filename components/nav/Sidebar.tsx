@@ -11,9 +11,6 @@ import {
 import UserProfile from "../user-profile/UserProfile";
 import { primaryItems } from "@/utils";
 
-export const description =
-  "A products dashboard with a sidebar navigation and a main content area. The dashboard has a header with a search input and a user menu. The sidebar has a logo, navigation links, and a card with a call to action. The main content area shows an empty state with a call to action.";
-
 const Sidebar = () => {
   return (
     <div className="hidden border-r bg-muted/40 md:block">
@@ -29,7 +26,7 @@ const Sidebar = () => {
                 className="flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:text-primary"
                 key={item._id}
               >
-                <item.icon className="h-4 w-4" />
+                <item.navicon className="h-4 w-4" />
                 {item.label}
               </Link>
             ))}
