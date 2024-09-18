@@ -6,7 +6,12 @@ import { Doc } from "@/convex/_generated/dataModel";
 import { useToast } from "@/hooks/use-toast";
 import Task from "./Task";
 
-const Todos = ({ items }: { items: Array<Doc<"todos">> }) => {
+interface TodosProps {
+  items: Array<Doc<"todos">>;
+  isoverdue?: boolean;
+}
+
+const Todos = ({ items, isoverdue }: TodosProps) => {
   const { toast } = useToast();
   const checkATodo = useMutation(api.queries.todos.checkATodo);
   const unCheckATodo = useMutation(api.queries.todos.unCheckATodo);
@@ -31,11 +36,12 @@ const Todos = ({ items }: { items: Array<Doc<"todos">> }) => {
     }
   };
 
-  return items.map((task, idx) => (
+  return items.map((task) => (
     <Task
-      key={idx}
+      key={task._id}
       data={task}
       isCompleted={task.isCompleted}
+      isoverdue={isoverdue}
       handleOnChange={() => handleOnChangeTodo(task)}
       isLoading={loadingTasks[task._id]}
     />

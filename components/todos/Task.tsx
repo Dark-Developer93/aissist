@@ -10,6 +10,15 @@ import { Badge } from "../ui/badge";
 import { Button } from "../ui/button";
 import ConfirmationDialog from "../confirmation-dialog/ConfirmationDialog";
 
+interface TodoProps {
+  data: Doc<"todos"> | Doc<"subTodos">;
+  isCompleted: boolean;
+  handleOnChange?: () => void;
+  showDetails?: boolean;
+  isLoading?: boolean;
+  isoverdue?: boolean;
+  onConfirm?: () => void;
+}
 function isSubTodo(
   data: Doc<"todos"> | Doc<"subTodos">
 ): data is Doc<"subTodos"> {
@@ -37,21 +46,15 @@ const Task = ({
   handleOnChange,
   showDetails = false,
   isLoading = false,
+  isoverdue = false,
   onConfirm,
-}: {
-  data: Doc<"todos"> | Doc<"subTodos">;
-  isCompleted: boolean;
-  handleOnChange?: () => void;
-  showDetails?: boolean;
-  isLoading?: boolean;
-  onConfirm?: () => void;
-}) => {
+}: TodoProps) => {
   const { taskName, dueDate, priority } = data;
 
   return (
     <div
       key={data._id}
-      className="flex items-center space-x-2 border-b-2 p-2 border-gray-100 animate-in fade-in"
+      className="flex flex-col items-start space-x-2 border-b-2 p-2 border-gray-100 animate-in fade-in"
     >
       <Dialog>
         <div className="flex gap-2 items-center justify-end w-full">
@@ -98,28 +101,34 @@ const Task = ({
             </DialogTrigger>
           </div>
           {!isSubTodo(data) && <AddTaskDialog data={data} />}
-        </div>
-        <Badge
-          className={clsx(
-            "text-white hover:text-white",
-            getPriorityColor(priority)
+          <Badge
+            className={clsx(
+              "text-white hover:text-white",
+              getPriorityColor(priority)
+            )}
+          >
+            {getPriorityLabel(priority)}
+          </Badge>
+          {isSubTodo(data) && (
+            <ConfirmationDialog
+              triggerButton={
+                <Button type="submit" variant="ghost" className="group">
+                  <Trash2 className="w-4 h-4 group-hover:text-red-600 transition-colors" />
+                </Button>
+              }
+              title="Are you absolutely sure?"
+              description="This action cannot be undone. This will permanently delete your task and remove its data from our servers."
+              onConfirm={() => onConfirm?.()}
+            />
           )}
-        >
-          {getPriorityLabel(priority)}
-        </Badge>
-        {isSubTodo(data) && (
-          <ConfirmationDialog
-            triggerButton={
-              <Button type="submit" variant="ghost" className="group">
-                <Trash2 className="w-4 h-4 group-hover:text-red-600 transition-colors" />
-              </Button>
-            }
-            title="Are you absolutely sure?"
-            description="This action cannot be undone. This will permanently delete your task and remove its data from our servers."
-            onConfirm={() => onConfirm?.()}
-          />
-        )}
+        </div>
       </Dialog>
+      {isoverdue && (
+        <div className="flex items-center justify-center p-2 gap-2">
+          <Calendar className="w-3 h-3 text-primary" />
+          <p className="text-xs text-primary">{formatDate(dueDate)}</p>
+        </div>
+      )}
     </div>
   );
 };
