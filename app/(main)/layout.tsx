@@ -1,8 +1,11 @@
 import type { Metadata } from "next";
+// eslint-disable-next-line camelcase
 import { Noto_Sans_Georgian } from "next/font/google";
 
-import "./globals.css";
+import "@/app/globals.css";
 import { Toaster } from "@/components/ui/toaster";
+import Header from "@/components/header/Header";
+import Footer from "@/components/footer/Footer";
 
 const defaultFont = Noto_Sans_Georgian({ subsets: ["latin"] });
 
@@ -28,7 +31,11 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <body className={defaultFont.className}>
-        {children}
+        <div className="flex flex-col min-h-screen">
+          <Header />
+          <main className="flex-1">{children}</main>
+          <Footer />
+        </div>
         <Toaster />
       </body>
     </html>
