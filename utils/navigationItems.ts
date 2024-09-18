@@ -4,25 +4,25 @@ export const primaryItems = [
   {
     _id: "1",
     href: "/loggedin",
-    icon: Inbox,
+    navicon: Inbox,
     label: "Inbox",
   },
   {
     _id: "2",
     href: "/loggedin/today",
-    icon: Calendar,
+    navicon: Calendar,
     label: "Today",
   },
   {
     _id: "3",
     href: "/loggedin/upcoming",
-    icon: CalendarDays,
+    navicon: CalendarDays,
     label: "Upcoming",
   },
   {
     _id: "4",
     href: "/loggedin/filter-labels",
-    icon: Grid2X2,
+    navicon: Grid2X2,
     label: "Filter & Labels",
   },
 ];
