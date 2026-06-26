@@ -9,7 +9,14 @@ import { getEmbeddingsWithAI } from "./ai";
 export const get = query({
   args: {},
   handler: async (ctx) => {
-    return (await ctx.db.query("todos").collect()) || [];
+    const userId = await handleUserId(ctx);
+    if (userId) {
+      return await ctx.db
+        .query("todos")
+        .filter((q) => q.eq(q.field("userId"), userId))
+        .collect();
+    }
+    return [];
   },
 });
 
@@ -100,8 +107,8 @@ export const todayTodos = query({
         .filter((q) => q.eq(q.field("userId"), userId))
         .filter(
           (q) =>
-            q.gte(q.field("dueDate"), todayStart.valueOf()) &&
-            q.lte(todayEnd.valueOf(), q.field("dueDate"))
+            q.gte(q.field("dueDate"), todayStart) &&
+            q.lte(q.field("dueDate"), todayEnd)
         )
         .collect();
     }
@@ -131,36 +138,46 @@ export const overdueTodos = query({
 export const completedTodos = query({
   args: {},
   handler: async (ctx) => {
-    return (
-      (await ctx.db
+    const userId = await handleUserId(ctx);
+    if (userId) {
+      return await ctx.db
         .query("todos")
+        .filter((q) => q.eq(q.field("userId"), userId))
         .filter((q) => q.eq(q.field("isCompleted"), true))
-        .collect()) || []
-    );
+        .collect();
+    }
+    return [];
   },
 });
 
 export const inCompleteTodos = query({
   args: {},
   handler: async (ctx) => {
-    return (
-      (await ctx.db
+    const userId = await handleUserId(ctx);
+    if (userId) {
+      return await ctx.db
         .query("todos")
+        .filter((q) => q.eq(q.field("userId"), userId))
         .filter((q) => q.eq(q.field("isCompleted"), false))
-        .collect()) || []
-    );
+        .collect();
+    }
+    return [];
   },
 });
 
 export const totalTodos = query({
   args: {},
   handler: async (ctx) => {
-    const todos = await ctx.db
-      .query("todos")
-      .filter((q) => q.eq(q.field("isCompleted"), true))
-      .collect();
-
-    return todos.length || 0;
+    const userId = await handleUserId(ctx);
+    if (userId) {
+      const todos = await ctx.db
+        .query("todos")
+        .filter((q) => q.eq(q.field("userId"), userId))
+        .filter((q) => q.eq(q.field("isCompleted"), true))
+        .collect();
+      return todos.length;
+    }
+    return 0;
   },
 });
 

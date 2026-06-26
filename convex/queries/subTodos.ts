@@ -204,16 +204,15 @@ export const inCompleteSubTodos = query({
   },
   handler: async (ctx, { parentId }) => {
     const userId = await handleUserId(ctx);
-    // if (userId) {
-    const todos = await ctx.db
-      .query("subTodos")
-      .filter((q) => q.eq(q.field("userId"), userId))
-      .filter((q) => q.eq(q.field("parentId"), parentId))
-      .filter((q) => q.eq(q.field("isCompleted"), false))
-      .collect();
-    return todos;
-    // }
-    // return [];
+    if (userId) {
+      return await ctx.db
+        .query("subTodos")
+        .filter((q) => q.eq(q.field("userId"), userId))
+        .filter((q) => q.eq(q.field("parentId"), parentId))
+        .filter((q) => q.eq(q.field("isCompleted"), false))
+        .collect();
+    }
+    return [];
   },
 });
 

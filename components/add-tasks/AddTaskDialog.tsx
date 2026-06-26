@@ -146,25 +146,14 @@ const AddTaskDialog = ({ data }: { data: Doc<"todos"> }) => {
     });
   };
 
-  const handleDeleteTodo = () => {
-    const deletedId = deleteATodoMutation({ taskId: _id });
-    if (deletedId !== undefined) {
-      toast({
-        title: "🗑️ Successfully deleted",
-        duration: 3000,
-      });
-    }
+  const handleDeleteTodo = async () => {
+    await deleteATodoMutation({ taskId: _id });
+    toast({ title: "🗑️ Successfully deleted", duration: 3000 });
   };
 
-  const handleSubTaskDelete = (subTaskId: Id<"subTodos">) => {
-    const deletedId = deleteASubTodoMutation({ taskId: subTaskId });
-    console.log("deletedId", deletedId);
-    if (deletedId !== undefined) {
-      toast({
-        title: "🗑️ Successfully deleted",
-        duration: 3000,
-      });
-    }
+  const handleSubTaskDelete = async (subTaskId: Id<"subTodos">) => {
+    await deleteASubTodoMutation({ taskId: subTaskId });
+    toast({ title: "🗑️ Successfully deleted", duration: 3000 });
   };
 
   return (

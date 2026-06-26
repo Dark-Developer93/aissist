@@ -1,16 +1,26 @@
-// import OpenAI from "openai";
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import { v } from "convex/values";
 
 import { api } from "@/convex/_generated/api";
 import { action } from "@/convex/_generated/server";
-
 import { Id } from "@/convex/_generated/dataModel";
+import { GET_STARTED_LABEL_ID } from "@/utils";
 
-// const apiKey = process.env.OPEN_AI_KEY;
-// const openai = new OpenAI({ apiKey });
 const apiKey = process.env.GEMINI_API_KEY as string;
 const genAI = new GoogleGenerativeAI(apiKey);
+
+const parseAIResponse = (content: string): Array<{ taskName: string; description: string; priority: number }> => {
+  const jsonMatch = content.match(/```json\n([\s\S]*?)\n```/);
+  if (jsonMatch && jsonMatch[1]) {
+    try {
+      return JSON.parse(jsonMatch[1])?.todos ?? [];
+    } catch (error) {
+      console.error("Failed to parse AI response:", error);
+      return [];
+    }
+  }
+  return [];
+};
 
 export const suggestMissingItemsWithAi = action({
   args: {
@@ -37,27 +47,10 @@ export const suggestMissingItemsWithAi = action({
     const response = result.response;
     const messageContent = response.text();
 
-    console.log({ messageContent });
-
     if (messageContent) {
-      const parseAIResponse = (content: string) => {
-        const jsonMatch = content.match(/```json\n([\s\S]*?)\n```/);
-        if (jsonMatch && jsonMatch[1]) {
-          try {
-            return JSON.parse(jsonMatch[1])?.todos ?? [];
-          } catch (error) {
-            console.error("Failed to parse AI response:", error);
-            return [];
-          }
-        }
-        return [];
-      };
-
       const items = parseAIResponse(messageContent);
-      const AI_LABEL_ID = "jx721pm26fd43f6h237f88v3j170eyb1";
 
-      for (let i = 0; i < items.length; i++) {
-        const { taskName, description, priority } = items[i];
+      for (const { taskName, description, priority } of items) {
         const embedding = await getEmbeddingsWithAI(taskName);
         await ctx.runMutation(api.queries.todos.createATodo, {
           taskName,
@@ -65,7 +58,7 @@ export const suggestMissingItemsWithAi = action({
           priority,
           dueDate: new Date().getTime(),
           projectId,
-          labelId: AI_LABEL_ID as Id<"labels">,
+          labelId: GET_STARTED_LABEL_ID as Id<"labels">,
           embedding,
         });
       }
@@ -106,27 +99,10 @@ export const suggestMissingSubItemsWithAi = action({
     const response = result.response;
     const messageContent = response.text();
 
-    console.log({ messageContent });
-
     if (messageContent) {
-      const parseAIResponse = (content: string) => {
-        const jsonMatch = content.match(/```json\n([\s\S]*?)\n```/);
-        if (jsonMatch && jsonMatch[1]) {
-          try {
-            return JSON.parse(jsonMatch[1])?.todos ?? [];
-          } catch (error) {
-            console.error("Failed to parse AI response:", error);
-            return [];
-          }
-        }
-        return [];
-      };
-
       const items = parseAIResponse(messageContent);
-      const AI_LABEL_ID = "jx721pm26fd43f6h237f88v3j170eyb1";
 
-      for (let i = 0; i < items.length; i++) {
-        const { taskName, description, priority } = items[i];
+      for (const { taskName, description, priority } of items) {
         const embedding = await getEmbeddingsWithAI(taskName);
         await ctx.runMutation(api.queries.subTodos.createASubTodo, {
           taskName,
@@ -135,7 +111,7 @@ export const suggestMissingSubItemsWithAi = action({
           dueDate: new Date().getTime(),
           projectId,
           parentId,
-          labelId: AI_LABEL_ID as Id<"labels">,
+          labelId: GET_STARTED_LABEL_ID as Id<"labels">,
           embedding,
         });
       }
@@ -150,11 +126,5 @@ export const getEmbeddingsWithAI = async (searchText: string) => {
 
   const model = genAI.getGenerativeModel({ model: "embedding-001" });
   const result = await model.embedContent(searchText);
-  const embedding = result.embedding;
-
-  console.log(
-    `Embedding of ${searchText}: , ${embedding.values.length} dimensions`
-  );
-
-  return embedding.values;
+  return result.embedding.values;
 };

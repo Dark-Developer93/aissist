@@ -1,4 +1,4 @@
-import { Calendar, GitBranch, Loader2, Trash2 } from "lucide-react";
+import { Calendar, Loader2, Trash2 } from "lucide-react";
 import clsx from "clsx";
 
 import { Doc } from "@/convex/_generated/dataModel";
@@ -85,10 +85,6 @@ const Task = ({
                 </button>
                 {showDetails && (
                   <div className="flex gap-2">
-                    <div className="flex items-center justify-center gap-1">
-                      <GitBranch className="w-3 h-3 text-foreground/70" />
-                      <p className="text-xs text-foreground/70" />
-                    </div>
                     <div className="flex items-center justify-center gap-1">
                       <Calendar className="w-3 h-3 text-primary" />
                       <p className="text-xs text-primary">

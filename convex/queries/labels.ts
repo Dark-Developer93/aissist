@@ -12,7 +12,10 @@ export const getLabels = query({
         .filter((q) => q.eq(q.field("userId"), userId))
         .collect();
 
-      const systemLabels = await ctx.db.query("labels").collect();
+      const systemLabels = await ctx.db
+        .query("labels")
+        .filter((q) => q.eq(q.field("type"), "system"))
+        .collect();
 
       return [...systemLabels, ...userLabels];
     }

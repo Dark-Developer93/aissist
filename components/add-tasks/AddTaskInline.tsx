@@ -110,8 +110,7 @@ export default function AddTaskInline({
 
     if (projectId) {
       if (parentId) {
-        // subtodo
-        const mutationId = createASubTodoEmbeddings({
+        await createASubTodoEmbeddings({
           parentId,
           taskName,
           description,
@@ -120,16 +119,10 @@ export default function AddTaskInline({
           projectId: projectId as Id<"projects">,
           labelId: labelId as Id<"labels">,
         });
-
-        if (mutationId !== undefined) {
-          toast({
-            title: "🔥 Created a task!",
-            duration: 3000,
-          });
-          form.reset({ ...defaultValues });
-        }
+        toast({ title: "🔥 Created a task!", duration: 3000 });
+        form.reset({ ...defaultValues });
       } else {
-        const mutationId = createTodoEmbeddings({
+        await createTodoEmbeddings({
           taskName,
           description,
           priority: parseInt(priority, 10),
@@ -137,14 +130,8 @@ export default function AddTaskInline({
           projectId: projectId as Id<"projects">,
           labelId: labelId as Id<"labels">,
         });
-
-        if (mutationId !== undefined) {
-          toast({
-            title: "🦄 Created a task!",
-            duration: 3000,
-          });
-          form.reset({ ...defaultValues });
-        }
+        toast({ title: "🦄 Created a task!", duration: 3000 });
+        form.reset({ ...defaultValues });
       }
     }
   }
@@ -274,8 +261,8 @@ export default function AddTaskInline({
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
-                      {labels.map((label: Doc<"labels">, idx: number) => (
-                        <SelectItem key={idx} value={label._id}>
+                      {labels.map((label: Doc<"labels">) => (
+                        <SelectItem key={label._id} value={label._id}>
                           {label?.name}
                         </SelectItem>
                       ))}
@@ -305,13 +292,11 @@ export default function AddTaskInline({
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
-                        {projects.map(
-                          (project: Doc<"projects">, idx: number) => (
-                            <SelectItem key={idx} value={project._id}>
-                              {project?.name}
-                            </SelectItem>
-                          ),
-                        )}
+                        {projects.map((project: Doc<"projects">) => (
+                          <SelectItem key={project._id} value={project._id}>
+                            {project?.name}
+                          </SelectItem>
+                        ))}
                       </SelectContent>
                     </Select>
 
